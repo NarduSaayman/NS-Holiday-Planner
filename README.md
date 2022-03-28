@@ -7,7 +7,7 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 ## Brief
 
 - I need a way to securely store my plans online so I can access them any time on any device.
-- I need to be able to see the currency conversion of my choice Currency API.
+- I need to be able to see the currency conversion of my choice [Currency API](https://api.currencyapi.com/v3/latest).
 - I need to be able to add new, edit existing, and delete any of my itinerary items and to see a calendar of my entire trip.
 - I need to be able to tag itinerary items as either travel or destination events.
 - I'd like to be able to install this as an app, but it's not necessary as I plan to buy a SIM card when I get to my destination.
