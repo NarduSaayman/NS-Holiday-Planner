@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "nsholidayplanner"
+  },
+  "targets": {
+    "nsholidayplanner": {
+      "hosting": {
+        "NS-Holiday-Planner": [
+          "nsholidayplanner"
+        ]
+      }
+    }
+  }
+}

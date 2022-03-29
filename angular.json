@@ -109,6 +109,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "NS-Holiday-Planner:build:production",
+            "firebaseProject": "nsholidayplanner",
+            "firebaseHostingSite": "nsholidayplanner"
+          }
         }
       }
     }
