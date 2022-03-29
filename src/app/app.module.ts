@@ -8,6 +8,8 @@ import { RegisterComponent } from './components/user/register/register.component
 import { LoginComponent } from './components/user/login/login.component';
 import { ItineraryComponent } from './components/itinerary/itinerary.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     RegisterComponent,
     LoginComponent,
     ItineraryComponent,
-    CalendarComponent
+    CalendarComponent,
+    NotFoundComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
