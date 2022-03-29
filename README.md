@@ -102,7 +102,6 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 ## Some Inspiration
 
 - [wonderlog](https://wanderlog.com/)
-- [wonderlog](https://wanderlog.com/)
 
 # Project
 
