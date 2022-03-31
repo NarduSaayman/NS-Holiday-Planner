@@ -59,8 +59,18 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 
 ### Component library options
 
-- ant-design
-- material
+- [ng-zorro Ant Design](https://ng.ant.design/docs/introduce/en) - Tons of really cool things
+- [Angular Material](https://material.angular.io/) - Tons of things
+- [Onsen UI](https://onsen.io/) - Solid mobile components
+- [PrimeNG](https://www.primefaces.org/primeng/#/) - Really clean and good looking components
+- [ng-lightning](https://ng-lightning.github.io/ng-lightning/#/) - Simple and clean components
+- [AG Grid](https://www.ag-grid.com/) - Has all the table goodness
+- [ngx-charts](https://swimlane.gitbook.io/ngx-charts/) - Chart goodness
+- [Apex Charts](https://apexcharts.com/) - Charts that you would see in movies, super sexy
+- [ngx-boostrap](https://valor-software.com/ngx-bootstrap/#/) - Bootstrap for angular
+- [Semantic UI](https://semantic-ui.com/) - A corporate favourite
+- [Kendo UI](https://www.telerik.com/kendo-ui) - Great stuff, but behind a paywall
+- [MDBootstrap](https://mdbootstrap.com/docs/b5/angular/) - Angular Material and Bootstrap in one package
 
 ## Accessibility
 
@@ -88,6 +98,11 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 - [ ] Full offline support
 - [ ] Map/Timeline or using the map to add locations to itinerary items
 - [ ] Lazy loading
+
+## Some Inspiration
+
+- [wonderlog](https://wanderlog.com/)
+- [wonderlog](https://wanderlog.com/)
 
 # Project
 
