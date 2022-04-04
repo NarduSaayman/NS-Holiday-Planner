@@ -4,6 +4,19 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 
 # Requirements & Checklist
 
+## Plan of action
+
+- [ ] Data Strucutres
+- [ ] Scribble some layouts
+- [ ] Routes / Lazy Loading
+- [ ] API
+- [ ] State Management
+- [ ] Jank Components
+- [ ] Smart and dumb Components (refactor the jank)
+- [ ] Fix Design
+- [ ] Check Requirement Spec
+- [ ] Then cool things
+
 ## Brief
 
 - I need a way to securely store my plans online so I can access them any time on any device.
