@@ -28,6 +28,8 @@ import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { MyTripsComponent } from './components/my-trips/my-trips.component';
 
 registerLocaleData(en);
 
@@ -41,6 +43,8 @@ registerLocaleData(en);
     CalendarComponent,
     NotFoundComponent,
     HomeComponent,
+    VerifyEmailComponent,
+    MyTripsComponent,
   ],
   imports: [
     BrowserModule,

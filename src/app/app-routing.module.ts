@@ -4,17 +4,14 @@ import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegisterComponent } from './components/user/register/register.component';
+import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: '', pathMatch: 'full', redirectTo: '/welcome' },
-  {
-    path: 'welcome',
-    loadChildren: () =>
-      import('./pages/welcome/welcome.module').then((m) => m.WelcomeModule),
-  },
+  { path: 'verify-email', component: VerifyEmailComponent },
+  { path: '', pathMatch: 'full', redirectTo: '/' },
   { path: '**', component: NotFoundComponent },
 ];
 
