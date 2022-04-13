@@ -39,6 +39,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 
 import { AuthService } from './services/auth.service';
+import { StoreModule } from '@ngrx/store';
 
 registerLocaleData(en);
 
@@ -77,6 +78,7 @@ registerLocaleData(en);
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
+    StoreModule.forRoot({}, {}),
   ],
   providers: [AuthService, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
