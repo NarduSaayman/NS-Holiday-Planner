@@ -35,7 +35,10 @@
                 "output": "/assets/"
               }
             ],
-            "styles": ["src/styles.scss", "src/theme.less"],
+            "styles": [
+              "src/styles.scss",
+              "src/theme.less"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -97,8 +100,13 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
             "scripts": []
           }
         },
@@ -115,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "NS-Holiday-Planner"
+  "defaultProject": "NS-Holiday-Planner",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

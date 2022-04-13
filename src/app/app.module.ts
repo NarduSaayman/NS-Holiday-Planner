@@ -40,6 +40,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 
 import { AuthService } from './services/auth.service';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 registerLocaleData(en);
 
@@ -79,6 +80,7 @@ registerLocaleData(en);
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
     StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [AuthService, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
