@@ -31,6 +31,15 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { MyTripsComponent } from './components/my-trips/my-trips.component';
 
+//Firebase services
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+
+import { AuthService } from './services/auth.service';
+
 registerLocaleData(en);
 
 @NgModule({
@@ -47,6 +56,11 @@ registerLocaleData(en);
     MyTripsComponent,
   ],
   imports: [
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -64,7 +78,7 @@ registerLocaleData(en);
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [AuthService, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
