@@ -23,7 +23,11 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideDatabase, getDatabase } from '@angular/fire/database';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { MyTripsComponent } from './components/my-trips/my-trips.component';
 
@@ -40,10 +44,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import * as fromUser from './store/user/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/user/user.effects';
-import * as fromTrip from './store/trip/trip.reducer';
-import { TripEffects } from './store/trip/trip.effects';
-import * as fromItin from './store/itinerary/itin.reducer';
-import { ItinEffects } from './store/itinerary/itin.effects';
 
 registerLocaleData(en);
 
@@ -78,15 +78,18 @@ registerLocaleData(en);
     IconsProviderModule,
     NzLayoutModule,
     NzMenuModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideDatabase(() => getDatabase()),
+    provideFirestore(() => getFirestore()),
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
-    EffectsModule.forFeature([UserEffects, TripEffects, ItinEffects]),
-    StoreModule.forFeature(fromTrip.tripFeatureKey, fromTrip.reducer),
-    StoreModule.forFeature(fromItin.itinFeatureKey, fromItin.reducer),
+    EffectsModule.forFeature([UserEffects]),
+    EffectsModule.forRoot([]),
   ],
   providers: [AuthService, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

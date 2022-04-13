@@ -12,7 +12,11 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   isCollapsed = false;
 
-  constructor(public authService: AuthService) {}
+  constructor(private authService: AuthService) {}
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn;
+  }
 
   logout() {
     this.authService.logout();
