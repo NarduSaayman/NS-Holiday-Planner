@@ -41,9 +41,9 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AuthService } from './services/auth.service';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import * as fromUser from './store/user/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { UserEffects } from './store/user/user.effects';
+import * as fromExchange from './store/exchange/exchange.reducer';
+import { ExchangeEffects } from './store/exchange/exchange.effects';
 
 registerLocaleData(en);
 
@@ -87,9 +87,11 @@ registerLocaleData(en);
       maxAge: 25,
       logOnly: environment.production,
     }),
-    StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
-    EffectsModule.forFeature([UserEffects]),
     EffectsModule.forRoot([]),
+    StoreModule.forFeature(
+      fromExchange.exchangeFeatureKey,
+      fromExchange.reducer
+    ),
   ],
   providers: [AuthService, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

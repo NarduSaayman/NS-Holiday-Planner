@@ -1,15 +1,24 @@
 import { createAction, props } from '@ngrx/store';
+import { Trip } from 'src/app/models/trip';
 
-export const tripTrips = createAction(
-  '[Trip] Trip Trips'
+export const addTrip = createAction('[Trip] getTrips');
+
+export const addTripComplete = createAction(
+  '[Trip] getTripsComplete',
+  props<{
+    newTrip: Trip | { name: ''; itinerary: []; userID: ''; tripID: '' };
+  }>()
+);
+export const getTrips = createAction('[Trip] getTrips');
+
+export const getTripsComplete = createAction(
+  '[Trip] getTripsComplete',
+  props<{ userTrips: Trip[] }>()
 );
 
-export const tripTripsSuccess = createAction(
-  '[Trip] Trip Trips Success',
-  props<{ data: any }>()
-);
+export const getTrip = createAction('[Trip] getTrip');
 
-export const tripTripsFailure = createAction(
-  '[Trip] Trip Trips Failure',
-  props<{ error: any }>()
+export const getTripComplete = createAction(
+  '[Trip] getTripsComplete',
+  props<{ userTrip: Trip }>()
 );

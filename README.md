@@ -17,6 +17,8 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 - [ ] Check Requirement Spec
 - [ ] Then cool things
 
+# - [ ] Remember to clean up observables!!!!
+
 ## Brief
 
 - I need a way to securely store my plans online so I can access them any time on any device.
@@ -27,14 +29,14 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 
 ### Info I'll need per itinerary item:
 
-- [ ] Name
-- [ ] Tag
-- [ ] Start time
-- [ ] End time
+- [x] Name
+- [x] Tag
+- [x] Start time
+- [x] End time
 - [ ] Cost estimate (and it's conversion to ZAR)
-- [ ] (Optional) Start location (lat, lon)
-- [ ] (Optional) End location (lat, lon)
-- [ ] (Optional) Notes
+- [x] (Optional) Start location (lat, lon)
+- [x] (Optional) End location (lat, lon)
+- [x] (Optional) Notes
 
 ## Backend
 
