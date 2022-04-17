@@ -39,6 +39,21 @@
           </li>
         </ul>
       </li>
+      <li
+        *ngIf="authService.userData"
+        nz-submenu
+        nzOpen
+        nzTitle="Logout"
+        nzIcon="user"
+      >
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <button (click)="logout()" nz-button nzType="primary">
+              Logout
+            </button>
+          </li>
+        </ul>
+      </li>
     </ul>
   </nz-sider>
   <nz-layout>
