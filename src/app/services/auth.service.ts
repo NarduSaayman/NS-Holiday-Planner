@@ -13,8 +13,7 @@ import { User } from '../models/user';
   providedIn: 'root',
 })
 export class AuthService {
-  userData: User | null = null;
-  loginSuccess: boolean = false;
+  userData!: User | null;
 
   constructor(
     private firebaseAuth: AngularFireAuth,
@@ -63,22 +62,15 @@ export class AuthService {
   login(email: string, password: string) {
     return this.firebaseAuth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {
+      .then(() => {
         this.ngZone.run(() => {
           this.router.navigate(['my-trips']);
-          console.log('localStorage:', localStorage.getItem('user')!);
         });
-        this.loginSuccess = true;
       })
       .catch((err: Error) => {
         // Add user alert on error
         console.error(err.message);
-        this.loginSuccess = false;
       });
-  }
-
-  succesfulLogin(): boolean {
-    return this.loginSuccess;
   }
 
   forgotPassword(passwordResetEmail: string) {
@@ -112,7 +104,7 @@ export class AuthService {
   authLogin(provider: firebase.auth.AuthProvider) {
     return this.firebaseAuth
       .signInWithPopup(provider)
-      .then((result) => {
+      .then(() => {
         this.ngZone.run(() => {
           this.router.navigate(['my-trips']);
         });
