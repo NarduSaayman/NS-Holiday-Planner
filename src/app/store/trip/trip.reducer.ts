@@ -21,15 +21,6 @@ export const initialState: TripState = {
 export const reducer = createReducer(
   initialState,
 
-  on(TripActions.addTrip, (state) => ({
-    ...state,
-  })),
-
-  on(TripActions.addTripComplete, (state, { newTrip }) => ({
-    ...state,
-    newTrip,
-  })),
-
   on(TripActions.getTrips, (state) => ({
     ...state,
     isLoading: true,
@@ -37,18 +28,7 @@ export const reducer = createReducer(
 
   on(TripActions.getTripsComplete, (state, { userTrips }) => ({
     ...state,
-    isLoading: true,
+    isLoading: false,
     userTrips,
-  })),
-
-  on(TripActions.getTrip, (state) => ({
-    ...state,
-    isLoading: true,
-  })),
-
-  on(TripActions.getTripComplete, (state, { userTrip }) => ({
-    ...state,
-    isLoading: true,
-    selectedTrip: userTrip,
   }))
 );

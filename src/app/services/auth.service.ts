@@ -5,9 +5,12 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import * as auth from 'firebase/auth';
 import firebase from 'firebase/compat';
 import { User } from '../models/user';
+import { setCurrentUser } from '../store/user/user.actions';
+import { UserState } from '../store/user/user.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -19,18 +22,22 @@ export class AuthService {
     private firebaseAuth: AngularFireAuth,
     private fireStore: AngularFirestore,
     private router: Router,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private userStore: Store<UserState>
   ) {
     this.firebaseAuth.authState.subscribe((user) => {
       if (user) {
         this.userData = {
-          ...user,
+          uid: user.uid,
           email: user.email || '',
           photoURL: user.photoURL || '',
           displayName: user.displayName || '',
+          emailVerified: user.emailVerified,
         };
+        this.userStore.dispatch(setCurrentUser({ user: this.userData }));
         localStorage.setItem('user', JSON.stringify(this.userData));
       } else {
+        this.userStore.dispatch(setCurrentUser({ user: null }));
         localStorage.setItem('user', 'null');
         this.userData = null;
       }
@@ -89,11 +96,13 @@ export class AuthService {
 
   get isLoggedIn(): boolean {
     const user: User = JSON.parse(localStorage.getItem('user')!);
+    this.userStore.dispatch(setCurrentUser({ user }));
     return !!user;
   }
 
   get isVerified(): boolean {
     const user: User = JSON.parse(localStorage.getItem('user')!);
+    this.userStore.dispatch(setCurrentUser({ user }));
     return !!user && user.emailVerified;
   }
 
@@ -125,6 +134,7 @@ export class AuthService {
 
   logout() {
     return this.firebaseAuth.signOut().then(() => {
+      this.userStore.dispatch(setCurrentUser({ user: null }));
       localStorage.removeItem('user');
       this.router.navigate(['login']);
     });

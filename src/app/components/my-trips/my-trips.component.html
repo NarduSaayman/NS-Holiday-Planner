@@ -1,1 +1,5 @@
-<p>my-trips works!</p>
+<div *ngFor="let trip of userTrips$ | async">
+  {{ trip.name }}
+</div>
+
+<button nz-button (click)="getTrips()">Get Trips</button>

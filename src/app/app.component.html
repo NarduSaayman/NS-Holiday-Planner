@@ -39,7 +39,13 @@
           </li>
         </ul>
       </li>
-      <li *ngIf="isLoggedIn()" nz-submenu nzOpen nzTitle="Logout" nzIcon="user">
+      <li
+        *ngIf="isLoggedIn$ | async"
+        nz-submenu
+        nzOpen
+        nzTitle="Logout"
+        nzIcon="user"
+      >
         <ul>
           <li nz-menu-item nzMatchRouter>
             <button (click)="logout()" nz-button nzType="primary">
