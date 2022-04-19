@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Trip } from '../models/trip';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable } from 'rxjs';
+import { EMPTY, from, Observable } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
+  DocumentReference,
 } from '@angular/fire/compat/firestore';
-import { map } from '@firebase/util';
 
 @Injectable({
   providedIn: 'root',
@@ -17,15 +18,24 @@ export class UserService {
     private firebaseAuth: AngularFireAuth
   ) {}
 
-  async addUserTrip(trip: Trip) {
-    this.firestore.collection('Trips').add({
-      ...trip,
-      userID: await this.firebaseAuth.currentUser.then((user) => user?.uid),
-      tripID: this.firestore.createId(),
-    });
+  addUserTrip(trip: Trip): Observable<DocumentReference<Trip>> {
+    return from(this.firebaseAuth.currentUser.then((user) => user?.uid)).pipe(
+      mergeMap((uid) => {
+        if (uid) {
+          return from(
+            this.firestore.collection<Trip>('Trips').add({
+              ...trip,
+              userID: uid,
+              tripID: this.firestore.createId(),
+            })
+          );
+        }
+        return EMPTY;
+      })
+    );
   }
 
-  async updateUserTrip(trip: Trip, tripID: string) {
+  updateUserTrip(trip: Trip, tripID: string) {
     const tripToUpdate = this.firestore.collection<Trip>('Trips', (ref) =>
       ref.where('tripID', '==', tripID)
     );
@@ -39,14 +49,14 @@ export class UserService {
     });
   }
 
-  getUserTrips(): Observable<Trip[]> {
-    const userID = this.firebaseAuth.currentUser.then((user) => user?.uid);
-    const userCollection = this.firestore.collection<Trip>('Trips', (ref) =>
-      ref.where('userID', '==', userID)
-    );
-    const userTrips$ = userCollection.valueChanges();
-
-    return userTrips$;
+  getUserTrips(userID: string): Observable<Trip[]> {
+    if (userID) {
+      const userCollection = this.firestore.collection<Trip>('Trips', (ref) =>
+        ref.where('userID', '==', userID)
+      );
+      return userCollection.valueChanges();
+    }
+    return EMPTY;
   }
 
   getUserTrip(tripID: string): Observable<Trip[]> {
