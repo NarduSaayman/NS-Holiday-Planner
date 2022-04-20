@@ -18,19 +18,23 @@ export class MyTripsComponent implements OnInit {
     this.userTrips$ = tripStore.pipe(select(selectTrips));
   }
 
+  newTrip: Trip = {
+    name: 'Trip2',
+    itinerary: [],
+    startEndDate: { startDate: new Date() },
+    userID: '',
+    tripID: '',
+  };
+
   ngOnInit(): void {
-    const newTrip: Trip = {
-      name: 'Trip1',
-      itinerary: [],
-      startEndDate: { startDate: new Date() },
-      userID: '',
-      tripID: '',
-    };
-    // this.tripStore.dispatch(addTrip({ newTrip }));
     this.getTrips();
   }
 
   getTrips() {
     this.tripStore.dispatch(getTrips());
+  }
+
+  addTrip() {
+    this.tripStore.dispatch(addTrip({ newTrip: this.newTrip }));
   }
 }

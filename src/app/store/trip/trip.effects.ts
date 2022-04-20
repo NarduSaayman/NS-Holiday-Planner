@@ -8,17 +8,21 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { UserService } from 'src/app/services/firestore.service';
 import { selectCurrentUser } from '../user/user.selectors';
 import { setCurrentUser } from '../user/user.actions';
+import { select, Store } from '@ngrx/store';
+import { UserState } from '../user/user.reducer';
 
 @Injectable()
 export class TripEffects {
   getTrips$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(TripActions.getTrips, setCurrentUser),
-      withLatestFrom(selectCurrentUser),
-      concatMap((currentUser) => {
+      withLatestFrom(this.userStore.pipe(select(selectCurrentUser))),
+      concatMap(([action, currentUser]) => {
         if (!currentUser) return EMPTY;
         return this.userService.getUserTrips(currentUser?.uid).pipe(
-          map((userTrips) => TripActions.getTripsComplete({ userTrips })),
+          map((userTrips) => {
+            return TripActions.getTripsComplete({ userTrips });
+          }),
           catchError((error) => {
             this.notificationService.error(
               `Sorry, couldn't get your trips.`,
@@ -39,8 +43,10 @@ export class TripEffects {
   addTrip$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(TripActions.addTrip),
-      concatMap(({ newTrip }) =>
-        this.userService.addUserTrip(newTrip).pipe(
+      withLatestFrom(this.userStore.pipe(select(selectCurrentUser))),
+      concatMap(([{ newTrip }, currentUser]) => {
+        if (!currentUser) return EMPTY;
+        return this.userService.addUserTrip(newTrip, currentUser.uid).pipe(
           map(() => TripActions.getTrips()),
           catchError((error) => {
             this.notificationService.error(
@@ -50,8 +56,8 @@ export class TripEffects {
             );
             return EMPTY;
           })
-        )
-      )
+        );
+      })
     );
   });
 
@@ -116,6 +122,7 @@ export class TripEffects {
   constructor(
     private actions$: Actions,
     private userService: UserService,
-    private notificationService: NzNotificationService
+    private notificationService: NzNotificationService,
+    private userStore: Store<UserState>
   ) {}
 }
