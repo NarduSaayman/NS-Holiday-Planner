@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ItineraryItem, Trip } from '../models/trip';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Trip } from '../models/trip';
 import { EMPTY, from, Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
 import {
   AngularFirestore,
   DocumentReference,
@@ -12,26 +10,20 @@ import {
   providedIn: 'root',
 })
 export class UserService {
-  constructor(
-    private firestore: AngularFirestore,
-    private firebaseAuth: AngularFireAuth
-  ) {}
+  constructor(private firestore: AngularFirestore) {}
 
-  addUserTrip(trip: Trip): Observable<DocumentReference<Trip>> {
-    return from(this.firebaseAuth.currentUser.then((user) => user?.uid)).pipe(
-      mergeMap((uid) => {
-        if (uid) {
-          return from(
-            this.firestore.collection<Trip>('Trips').add({
-              ...trip,
-              userID: uid,
-              tripID: this.firestore.createId(),
-            })
-          );
-        }
-        return EMPTY;
-      })
-    );
+  addUserTrip(trip: Trip, userID: string): Observable<DocumentReference<Trip>> {
+    if (userID) {
+      console.log('trip:', trip);
+      return from(
+        this.firestore.collection<Trip>('Trips').add({
+          ...trip,
+          userID,
+          tripID: this.firestore.createId(),
+        })
+      );
+    }
+    return EMPTY;
   }
 
   updateUserTrip(trip: Trip): Observable<void> {
@@ -56,6 +48,7 @@ export class UserService {
       );
       return userCollection.valueChanges();
     }
+
     return EMPTY;
   }
 
