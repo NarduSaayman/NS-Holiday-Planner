@@ -37,6 +37,7 @@ import { TripEffects } from './store/trip/trip.effects';
 import { ExchangeEffects } from './store/exchange/exchange.effects';
 import * as fromUser from './store/user/user.reducer';
 import { TripComponent } from './components/my-trips/trip/trip.component';
+import { TripFormComponent } from './components/my-trips/trip-form/trip-form.component';
 
 registerLocaleData(en);
 
@@ -53,6 +54,7 @@ registerLocaleData(en);
     VerifyEmailComponent,
     MyTripsComponent,
     TripComponent,
+    TripFormComponent,
   ],
   imports: [
     BrowserModule,
