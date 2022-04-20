@@ -14,8 +14,20 @@ export interface TripState {
 export const initialState: TripState = {
   isLoading: false,
   userTrips: [],
-  newTrip: { name: '', itinerary: [], userID: '', tripID: '' },
-  selectedTrip: { name: '', itinerary: [], userID: '', tripID: '' },
+  newTrip: {
+    name: '',
+    itinerary: [],
+    userID: '',
+    tripID: '',
+    startEndDate: { startDate: new Date() },
+  },
+  selectedTrip: {
+    name: '',
+    itinerary: [],
+    userID: '',
+    tripID: '',
+    startEndDate: { startDate: new Date() },
+  },
 };
 
 export const reducer = createReducer(

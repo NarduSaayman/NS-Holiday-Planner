@@ -6,6 +6,20 @@ export const addTrip = createAction(
   props<{ newTrip: Trip }>()
 );
 
+export const updateTrip = createAction(
+  '[Trip] updateTrip',
+  props<{ updatedTrip: Trip }>()
+);
+export const deleteTrip = createAction(
+  '[Trip] deleteTrip',
+  props<{ tripToDelete: Trip }>()
+);
+
+export const deleteItinerary = createAction(
+  '[Trip] deleteItinerary',
+  props<{ filteredTrip: Trip }>()
+);
+
 export const getTrips = createAction('[Trip] getTrips');
 
 export const getTripsComplete = createAction(

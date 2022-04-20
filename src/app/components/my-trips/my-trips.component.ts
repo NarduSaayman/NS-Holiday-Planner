@@ -22,11 +22,12 @@ export class MyTripsComponent implements OnInit {
     const newTrip: Trip = {
       name: 'Trip1',
       itinerary: [],
+      startEndDate: { startDate: new Date() },
       userID: '',
       tripID: '',
     };
-    this.tripStore.dispatch(addTrip({ newTrip }));
-    this.tripStore.dispatch(getTrips());
+    // this.tripStore.dispatch(addTrip({ newTrip }));
+    this.getTrips();
   }
 
   getTrips() {

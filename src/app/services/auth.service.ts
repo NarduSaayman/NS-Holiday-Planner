@@ -1,13 +1,11 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as auth from 'firebase/auth';
 import firebase from 'firebase/compat';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { User } from '../models/user';
 import { setCurrentUser } from '../store/user/user.actions';
 import { UserState } from '../store/user/user.reducer';
@@ -23,7 +21,8 @@ export class AuthService {
     private fireStore: AngularFirestore,
     private router: Router,
     private ngZone: NgZone,
-    private userStore: Store<UserState>
+    private userStore: Store<UserState>,
+    private notificationService: NzNotificationService
   ) {
     this.firebaseAuth.authState.subscribe((user) => {
       if (user) {
@@ -61,7 +60,11 @@ export class AuthService {
         }
       })
       .catch((err: Error) => {
-        // Add user alert on error
+        this.notificationService.error(
+          `Sorry, couldn't register your account.`,
+          err.toString(),
+          { nzDuration: 0 }
+        );
         console.error(err.message);
       });
   }
@@ -75,7 +78,11 @@ export class AuthService {
         });
       })
       .catch((err: Error) => {
-        // Add user alert on error
+        this.notificationService.error(
+          `Sorry, couldn't log you in.`,
+          err.toString(),
+          { nzDuration: 0 }
+        );
         console.error(err.message);
       });
   }
@@ -89,7 +96,11 @@ export class AuthService {
         );
       })
       .catch((err: Error) => {
-        // add user alert on error
+        this.notificationService.error(
+          `Sorry, couldn't reset your password. Please try again.`,
+          err.toString(),
+          { nzDuration: 0 }
+        );
         console.error(err.message);
       });
   }
@@ -119,7 +130,11 @@ export class AuthService {
         });
       })
       .catch((err: Error) => {
-        // Add user alert on error
+        this.notificationService.error(
+          `Sorry, couldn't log you in.`,
+          err.toString(),
+          { nzDuration: 0 }
+        );
         console.log(err.message);
       });
   }

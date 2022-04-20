@@ -36,6 +36,7 @@ import { FirebaseModule } from './shared/firebase/firebase.module';
 import { TripEffects } from './store/trip/trip.effects';
 import { ExchangeEffects } from './store/exchange/exchange.effects';
 import * as fromUser from './store/user/user.reducer';
+import { TripComponent } from './components/my-trips/trip/trip.component';
 
 registerLocaleData(en);
 
@@ -51,6 +52,7 @@ registerLocaleData(en);
     HomeComponent,
     VerifyEmailComponent,
     MyTripsComponent,
+    TripComponent,
   ],
   imports: [
     BrowserModule,
