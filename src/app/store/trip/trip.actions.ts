@@ -26,3 +26,8 @@ export const getTripsComplete = createAction(
   '[Trip] getTripsComplete',
   props<{ userTrips: Trip[] }>()
 );
+
+export const setSelectedTrip = createAction(
+  '[Trip] setSelectedTrip',
+  props<{ selectedTrip: Trip }>()
+);

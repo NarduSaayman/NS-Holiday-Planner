@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ItineraryComponent } from './itinerary.component';
+import { ItineraryFormComponent } from './itinerary-form.component';
 
-describe('ItineraryComponent', () => {
-  let component: ItineraryComponent;
-  let fixture: ComponentFixture<ItineraryComponent>;
+describe('ItineraryFormComponent', () => {
+  let component: ItineraryFormComponent;
+  let fixture: ComponentFixture<ItineraryFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ItineraryComponent ]
+      declarations: [ ItineraryFormComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ItineraryComponent);
+    fixture = TestBed.createComponent(ItineraryFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

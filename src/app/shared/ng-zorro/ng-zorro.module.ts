@@ -8,6 +8,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   declarations: [],
@@ -23,6 +24,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     NzMenuModule,
     NzNotificationModule,
     NzBadgeModule,
+    NzCardModule,
   ],
   exports: [
     //Ng-Zorro
@@ -34,6 +36,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     NzMenuModule,
     NzNotificationModule,
     NzBadgeModule,
+    NzCardModule,
   ],
 })
 export class NgZorroModule {}

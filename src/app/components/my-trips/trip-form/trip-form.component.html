@@ -1,101 +1,45 @@
-<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+<form nz-form [formGroup]="newTripForm" (ngSubmit)="emitTrip()">
   <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
-    <nz-form-control
-      [nzSpan]="12"
-      nzHasFeedback
-      nzValidatingTip="Validating..."
-      [nzErrorTip]="userErrorTpl"
-    >
+    <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="userErrorTpl">
       <input
         nz-input
-        formControlName="userName"
-        placeholder="async validate try to write JasonWood"
+        formControlName="tripName"
+        placeholder="e.g. Tokyo Holiday"
       />
       <ng-template #userErrorTpl let-control>
         <ng-container *ngIf="control.hasError('required')"
-          >Please input your username!</ng-container
-        >
-        <ng-container *ngIf="control.hasError('duplicated')"
-          >The username is redundant!</ng-container
+          >Your trip has to at least have a name!</ng-container
         >
       </ng-template>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>E-mail</nz-form-label>
-    <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
-      <input
-        nz-input
-        formControlName="email"
-        placeholder="email"
-        type="email"
-      />
-      <ng-template #emailErrorTpl let-control>
-        <ng-container *ngIf="control.hasError('email')"
-          >The input is not valid E-mail!</ng-container
-        >
-        <ng-container *ngIf="control.hasError('required')"
-          >Please input your E-mail!</ng-container
-        >
-      </ng-template>
+    <nz-form-label [nzSpan]="7">Location</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <input nz-input formControlName="tripLocation" placeholder="e.g. Tokyo" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>Password</nz-form-label>
-    <nz-form-control
-      [nzSpan]="12"
-      nzHasFeedback
-      nzErrorTip="Please input your password!"
-    >
-      <input
-        nz-input
-        type="password"
-        formControlName="password"
-        (ngModelChange)="validateConfirmPassword()"
-      />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>Confirm Password</nz-form-label>
-    <nz-form-control
-      [nzSpan]="12"
-      nzHasFeedback
-      [nzErrorTip]="passwordErrorTpl"
-    >
-      <input
-        nz-input
-        type="password"
-        formControlName="confirm"
-        placeholder="confirm your password"
-      />
-      <ng-template #passwordErrorTpl let-control>
-        <ng-container *ngIf="control.hasError('required')"
-          >Please confirm your password!</ng-container
-        >
-        <ng-container *ngIf="control.hasError('confirm')"
-          >Password is inconsistent!</ng-container
-        >
-      </ng-template>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>Comment</nz-form-label>
-    <nz-form-control [nzSpan]="12" nzErrorTip="Please write something here!">
+    <nz-form-label [nzSpan]="7">Description</nz-form-label>
+    <nz-form-control [nzSpan]="12" n>
       <textarea
-        formControlName="comment"
+        formControlName="tripDescription"
         nz-input
         rows="2"
-        placeholder="write any thing"
+        placeholder="Anything you'd like to add about this trip?"
       ></textarea>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-control [nzOffset]="7" [nzSpan]="12">
-      <button nz-button nzType="primary" [disabled]="!validateForm.valid">
-        Submit
+      <button nz-button nzType="primary" [disabled]="!newTripForm.valid">
+        <ng-container
+          *ngIf="isExistingTrip; then UpdateTrip; else CreateTrip"
+        ></ng-container>
+        <ng-template #UpdateTrip>Update Trip</ng-template>
+        <ng-template #CreateTrip>Create Trip</ng-template>
       </button>
-      <button nz-button (click)="resetForm($event)">Reset</button>
     </nz-form-control>
   </nz-form-item>
 </form>

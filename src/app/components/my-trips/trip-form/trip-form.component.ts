@@ -1,75 +1,65 @@
-import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
-import { Observable, Observer } from 'rxjs';
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Trip } from 'src/app/models/trip';
 
 @Component({
   selector: 'app-trip-form',
   templateUrl: './trip-form.component.html',
   styleUrls: ['./trip-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TripFormComponent implements OnInit {
-  validateForm: FormGroup;
+export class TripFormComponent {
+  private localTrip!: Trip | null;
+  isExistingTrip = false;
 
-  submitForm(): void {
-    console.log('submit', this.validateForm.value);
-  }
-
-  resetForm(e: MouseEvent): void {
-    e.preventDefault();
-    this.validateForm.reset();
-    for (const key in this.validateForm.controls) {
-      if (this.validateForm.controls.hasOwnProperty(key)) {
-        this.validateForm.controls[key].markAsPristine();
-        this.validateForm.controls[key].updateValueAndValidity();
-      }
+  @Input() set formTrip(trip: Trip | null) {
+    this.localTrip = trip;
+    if (!!trip?.tripID) {
+      this.isExistingTrip = true;
+      this.newTripForm = this.fb.group({
+        tripName: [trip.name, [Validators.required]],
+        tripLocation: [trip.location || ''],
+        tripDescription: [trip.description || ''],
+      });
+    } else {
+      this.isExistingTrip = false;
+      this.newTripForm = this.fb.group({
+        tripName: ['', [Validators.required]],
+        tripLocation: [''],
+        tripDescription: [''],
+      });
     }
   }
 
-  validateConfirmPassword(): void {
-    setTimeout(() =>
-      this.validateForm.controls['confirm'].updateValueAndValidity()
-    );
+  @Output() upsertTrip = new EventEmitter<Trip>();
+
+  newTripForm: FormGroup;
+
+  emitTrip(): void {
+    console.log('submit', this.newTripForm.value);
+    const newTrip: Trip = {
+      name: this.newTripForm.controls['tripName'].value,
+      location: this.newTripForm.controls['tripLocation'].value,
+      description: this.newTripForm.controls['tripDescription'].value,
+      itinerary: this.localTrip?.itinerary || [],
+      userID: this.localTrip?.userID || '',
+      tripID: this.localTrip?.tripID || '',
+      totalCost: 0,
+    };
+    this.upsertTrip.emit(newTrip);
   }
-
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  userNameAsyncValidator = (control: FormControl) =>
-    new Observable((observer: Observer<ValidationErrors | null>) => {
-      setTimeout(() => {
-        if (control.value === 'JasonWood') {
-          // you have to return `{error: true}` to mark it as an error event
-          observer.next({ error: true, duplicated: true });
-        } else {
-          observer.next(null);
-        }
-        observer.complete();
-      }, 1000);
-    });
-
-  confirmValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { error: true, required: true };
-    } else if (control.value !== this.validateForm.controls['password'].value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
 
   constructor(private fb: FormBuilder) {
-    this.validateForm = this.fb.group({
-      userName: ['', [Validators.required], [this.userNameAsyncValidator]],
-      email: ['', [Validators.email, Validators.required]],
-      password: ['', [Validators.required]],
-      confirm: ['', [this.confirmValidator]],
-      comment: ['', [Validators.required]],
+    this.newTripForm = this.fb.group({
+      tripName: ['', [Validators.required]],
+      tripLocation: [''],
+      tripDescription: [''],
     });
-  }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 }

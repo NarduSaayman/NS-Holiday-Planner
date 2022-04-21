@@ -5,14 +5,13 @@ export enum Tag {
 
 export interface Trip {
   name: string;
-  description?: string;
   location?: string;
+  description?: string;
   itinerary: ItineraryItem[];
-  startEndDate: StartEndDate;
+  startEndDate?: StartEndDate;
   userID: string;
   tripID: string;
-  // Selectors for start and end date
-  // Selector for cost, derived from interaries
+  totalCost: number;
 }
 
 export interface StartEndDate {

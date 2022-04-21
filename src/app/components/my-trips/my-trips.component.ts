@@ -1,10 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Trip } from 'src/app/models/trip';
-import { addTrip, getTrips } from 'src/app/store/trip/trip.actions';
+import {
+  addTrip,
+  deleteTrip,
+  getTrips,
+  setSelectedTrip,
+  updateTrip,
+} from 'src/app/store/trip/trip.actions';
 import { TripState } from 'src/app/store/trip/trip.reducer';
-import { selectTrips } from 'src/app/store/trip/trip.selectors';
+import {
+  selectSelectedTrip,
+  selectTrips,
+} from 'src/app/store/trip/trip.selectors';
 
 @Component({
   selector: 'app-my-trips',
@@ -14,17 +24,13 @@ import { selectTrips } from 'src/app/store/trip/trip.selectors';
 export class MyTripsComponent implements OnInit {
   userTrips$: Observable<Trip[]>;
 
-  constructor(private tripStore: Store<TripState>) {
+  tripToEdit!: Trip | null;
+
+  showTripForm = false;
+
+  constructor(private tripStore: Store<TripState>, private router: Router) {
     this.userTrips$ = tripStore.pipe(select(selectTrips));
   }
-
-  newTrip: Trip = {
-    name: 'Trip2',
-    itinerary: [],
-    startEndDate: { startDate: new Date() },
-    userID: '',
-    tripID: '',
-  };
 
   ngOnInit(): void {
     this.getTrips();
@@ -34,7 +40,32 @@ export class MyTripsComponent implements OnInit {
     this.tripStore.dispatch(getTrips());
   }
 
+  upsertTrip(trip: Trip) {
+    if (trip?.tripID?.length > 0) {
+      this.tripStore.dispatch(updateTrip({ updatedTrip: trip }));
+    } else this.tripStore.dispatch(addTrip({ newTrip: trip }));
+  }
+
+  editTrip(trip: Trip) {
+    this.tripToEdit = trip;
+    this.showTripForm = true;
+  }
+
   addTrip() {
-    this.tripStore.dispatch(addTrip({ newTrip: this.newTrip }));
+    this.tripToEdit = null;
+    this.showTripForm = true;
+  }
+
+  deleteTrip(trip: Trip) {
+    this.tripStore.dispatch(deleteTrip({ tripToDelete: trip }));
+  }
+
+  viewTrip(trip: Trip) {
+    this.tripStore.dispatch(setSelectedTrip({ selectedTrip: trip }));
+    this.router.navigate([`trip`]);
+  }
+
+  trackTrip(index: number, trip: Trip) {
+    return trip.tripID;
   }
 }

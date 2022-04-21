@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {}
+
   submitForm(): void {
     if (this.registerForm.valid) {
       console.log('submit', this.registerForm.value);

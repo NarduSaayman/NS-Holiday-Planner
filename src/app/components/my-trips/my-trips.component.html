@@ -1,6 +1,44 @@
-<div *ngFor="let trip of userTrips$ | async">
-  {{ trip.name }}
+<div *ngFor="let trip of userTrips$ | async; trackBy: trackTrip">
+  <nz-card
+    (click)="viewTrip(trip)"
+    style="width: 300px"
+    [nzCover]="coverTemplate"
+    [nzActions]="[actionView, actionEdit, actionDelete]"
+  >
+    <nz-card-meta
+      nzTitle="trip?.name"
+      nzDescription="trip?.description"
+    ></nz-card-meta>
+  </nz-card>
+  <ng-template #coverTemplate>
+    <img
+      alt="example"
+      src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+    />
+  </ng-template>
+  <ng-template #actionView>
+    <button (click)="$event.stopPropagation(); viewTrip(trip)">
+      <i nz-icon nzType="eye"></i>
+    </button>
+  </ng-template>
+  <ng-template #actionEdit>
+    <button (click)="$event.stopPropagation(); editTrip(trip)">
+      <i nz-icon nzType="edit"></i>
+    </button>
+  </ng-template>
+  <ng-template #actionDelete>
+    <button (click)="$event.stopPropagation(); deleteTrip(trip)">
+      <i nz-icon nzType="trash"></i>
+    </button>
+  </ng-template>
 </div>
 
-<button nz-button (click)="getTrips()">Get Trips</button>
 <button nz-button (click)="addTrip()">Add Trip</button>
+
+<button nz-button (click)="getTrips()">Get Trips</button>
+
+<app-trip-form
+  *ngIf="showTripForm"
+  [formTrip]="tripToEdit"
+  (upsertTrip)="upsertTrip($event)"
+></app-trip-form>
