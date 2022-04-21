@@ -11,7 +11,7 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 - [ ] Routes / Lazy Loading
 - [x] API
 - [x] State Management
-- [ ] Jank Components
+- [x] Jank Components
 - [ ] Smart and dumb Components (refactor the jank)
 - [ ] Fix Design
 - [ ] Check Requirement Spec
@@ -33,7 +33,7 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 - [x] Tag
 - [x] Start time
 - [x] End time
-- [ ] Cost estimate (and it's conversion to ZAR)
+- [x] Cost estimate (and it's conversion to ZAR)
 - [x] (Optional) Start location (lat, lon)
 - [x] (Optional) End location (lat, lon)
 - [x] (Optional) Notes
@@ -51,11 +51,11 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 
 - [ ] Container & Presentational components
 - [ ] Pipe(s)
-- [ ] Evaluated attributes
-- [ ] Proper management of lists i.e. trackBy
-- [ ] Form handling
+- [x] Evaluated attributes
+- [x] Proper management of lists i.e. trackBy
+- [x] Form handling
 - [ ] Only absolutely necessary and cleaned up observable$ subscriptions (if any)
-- [ ] Event handling
+- [x] Event handling
 - [x] State management - NgRx Store
   - [x] Actions, Reducers, Selectors
   - [x] Effects
