@@ -22,6 +22,7 @@ import { selectSelectedTrip } from 'src/app/store/trip/trip.selectors';
 export class ItineraryFormComponent {
   private localItinItem!: ItineraryItem | null;
   isExistingItem = false;
+  tag!: Tag;
 
   @Input() set formItinItem(itinItem: ItineraryItem | null) {
     this.localItinItem = itinItem;

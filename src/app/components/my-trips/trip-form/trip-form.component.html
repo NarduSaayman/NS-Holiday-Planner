@@ -1,4 +1,9 @@
-<form nz-form [formGroup]="newTripForm" (ngSubmit)="emitTrip()">
+<form
+  nz-form
+  nzNoColon="true"
+  [formGroup]="newTripForm"
+  (ngSubmit)="emitTrip()"
+>
   <nz-form-item>
     <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
     <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="userErrorTpl">

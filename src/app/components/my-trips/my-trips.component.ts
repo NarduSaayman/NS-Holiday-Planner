@@ -65,6 +65,11 @@ export class MyTripsComponent implements OnInit {
     this.router.navigate([`trip`]);
   }
 
+  handleCancel() {
+    this.tripToEdit = null;
+    this.showTripForm = false;
+  }
+
   trackTrip(index: number, trip: Trip) {
     return trip.tripID;
   }

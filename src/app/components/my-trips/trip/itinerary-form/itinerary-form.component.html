@@ -1,4 +1,9 @@
-<form nz-form [formGroup]="itineraryItemForm" (ngSubmit)="emitItineraryItem()">
+<form
+  nz-form
+  nzNoColon="true"
+  [formGroup]="itineraryItemForm"
+  (ngSubmit)="emitItineraryItem()"
+>
   <nz-form-item>
     <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
     <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="userErrorTpl">
@@ -25,15 +30,11 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSpan]="7">Destination or Travel?</nz-form-label>
-    <nz-form-control [nzSpan]="12" n>
-      <nz-radio-group
-        formControlName="tripDestOrTravel"
-        [(ngModel)]="radioValue"
-        nzSize="large"
-      >
-        <label nz-radio-button nzValue="destination">Destination</label>
-        <label nz-radio-button nzValue="travel">Travel</label>
+    <nz-form-label [nzSpan]="7"></nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-radio-group>
+        <label nz-radio-button [nzValue]="'destination'">Destination</label>
+        <label nz-radio-button [nzValue]="'travel'">Travel</label>
       </nz-radio-group>
     </nz-form-control>
   </nz-form-item>

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { ItineraryItem, Trip } from 'src/app/models/trip';
 import { addTrip, updateTrip } from 'src/app/store/trip/trip.actions';
 import { TripState } from 'src/app/store/trip/trip.reducer';
@@ -11,7 +11,8 @@ import { selectSelectedTrip } from 'src/app/store/trip/trip.selectors';
   templateUrl: './trip.component.html',
   styleUrls: ['./trip.component.scss'],
 })
-export class TripComponent implements OnInit {
+export class TripComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<null>();
   selectedTrip$: Observable<Trip>;
 
   tripToEdit!: Trip | null;
@@ -25,9 +26,14 @@ export class TripComponent implements OnInit {
 
   ngOnInit(): void {
     //clean up subscirbe
-    this.selectedTrip$.subscribe((trip) => {
+    this.selectedTrip$.pipe(takeUntil(this.destroy$)).subscribe((trip) => {
       this.tripToEdit = JSON.parse(JSON.stringify(trip));
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 
   upsertItinItem(itinItem: ItineraryItem) {

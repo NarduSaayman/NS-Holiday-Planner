@@ -12,7 +12,7 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 - [x] API
 - [x] State Management
 - [x] Jank Components
-- [ ] Smart and dumb Components (refactor the jank)
+- [x] Smart and dumb Components (refactor the jank)
 - [ ] Fix Design
 - [ ] Check Requirement Spec
 - [ ] Then cool things
@@ -49,12 +49,12 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 
 ## Angular
 
-- [ ] Container & Presentational components
+- [x] Container & Presentational components
 - [ ] Pipe(s)
 - [x] Evaluated attributes
 - [x] Proper management of lists i.e. trackBy
 - [x] Form handling
-- [ ] Only absolutely necessary and cleaned up observable$ subscriptions (if any)
+- [x] Only absolutely necessary and cleaned up observable$ subscriptions (if any)
 - [x] Event handling
 - [x] State management - NgRx Store
   - [x] Actions, Reducers, Selectors
