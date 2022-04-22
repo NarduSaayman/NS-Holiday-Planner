@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Trip } from '../models/trip';
-import { EMPTY, from, Observable } from 'rxjs';
+import { EMPTY, from, map, Observable } from 'rxjs';
 import {
   AngularFirestore,
+  DocumentChangeAction,
   DocumentReference,
 } from '@angular/fire/compat/firestore';
 
@@ -26,19 +27,30 @@ export class UserService {
     return EMPTY;
   }
 
-  updateUserTrip(trip: Trip): Observable<void> {
+  updateUserTrip(trip: Trip, docID: string): Observable<void> {
+    if (docID?.length === 0) return EMPTY;
+    return from(
+      this.firestore
+        .collection('Trips')
+        .doc(docID)
+        .update({ ...trip })
+    );
+  }
+
+  getTripDocID(trip: Trip): Observable<string | null> {
     if (trip?.tripID) {
-      const tripToUpdate = this.firestore.collection<Trip>('Trips', (ref) =>
-        ref.where('tripID', '==', trip.tripID)
-      );
-      tripToUpdate.snapshotChanges().subscribe((res) => {
-        let id = res[0].payload.doc.id;
-        return from(
-          this.firestore.collection<Trip>('Trips').doc(id).update(trip)
+      return this.firestore
+        .collection<Trip>('Trips', (ref) =>
+          ref.where('tripID', '==', trip.tripID).limit(1)
+        )
+        .snapshotChanges()
+        .pipe(
+          map((DocAction: DocumentChangeAction<Trip>[]) => {
+            if (DocAction.length === 0) return null;
+            return DocAction[0].payload.doc.id;
+          })
         );
-      });
-    }
-    return EMPTY;
+    } else return EMPTY;
   }
 
   getUserTrips(userID: string): Observable<Trip[]> {
@@ -48,20 +60,11 @@ export class UserService {
       );
       return userCollection.valueChanges();
     }
-
     return EMPTY;
   }
 
-  deleteUserTrip(trip: Trip): Observable<void> {
-    if (trip?.tripID) {
-      const tripToUpdate = this.firestore.collection<Trip>('Trips', (ref) =>
-        ref.where('tripID', '==', trip.tripID)
-      );
-      tripToUpdate.snapshotChanges().subscribe((res) => {
-        let id = res[0].payload.doc.id;
-        return from(this.firestore.collection<Trip>('Trips').doc(id).delete());
-      });
-    }
-    return EMPTY;
+  deleteUserTrip(docID: string): Observable<void> {
+    if (docID?.length === 0) return EMPTY;
+    return from(this.firestore.collection('Trips').doc(docID).delete());
   }
 }
