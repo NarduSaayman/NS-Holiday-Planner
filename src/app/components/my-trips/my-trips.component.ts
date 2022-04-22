@@ -5,16 +5,13 @@ import { Observable } from 'rxjs';
 import { Trip } from 'src/app/models/trip';
 import {
   addTrip,
-  deleteTrip,
+  deleteTripByID,
   getTrips,
   setSelectedTrip,
   updateTrip,
 } from 'src/app/store/trip/trip.actions';
 import { TripState } from 'src/app/store/trip/trip.reducer';
-import {
-  selectSelectedTrip,
-  selectTrips,
-} from 'src/app/store/trip/trip.selectors';
+import { selectTrips } from 'src/app/store/trip/trip.selectors';
 
 @Component({
   selector: 'app-my-trips',
@@ -57,7 +54,9 @@ export class MyTripsComponent implements OnInit {
   }
 
   deleteTrip(trip: Trip) {
-    this.tripStore.dispatch(deleteTrip({ tripToDelete: trip }));
+    this.tripStore.dispatch(
+      deleteTripByID({ tripToDelete: trip, tripDocID: '' })
+    );
   }
 
   viewTrip(trip: Trip) {

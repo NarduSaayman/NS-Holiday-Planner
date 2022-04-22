@@ -54,6 +54,11 @@ export class TripComponent implements OnInit, OnDestroy {
     this.showItinItemForm = true;
   }
 
+  handleCancel() {
+    this.itinItemToEdit = null;
+    this.showItinItemForm = false;
+  }
+
   removeItinItem(itinItem: ItineraryItem) {
     if (!this.tripToEdit?.itinerary) return;
     this.tripToEdit.itinerary = this.tripToEdit?.itinerary.filter(

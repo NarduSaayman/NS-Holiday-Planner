@@ -73,7 +73,7 @@ export class ItineraryFormComponent {
         this.itineraryItemForm.controls['itinItemCostEstimate'].value,
       notes: this.itineraryItemForm.controls['itinItemNotes'].value,
     };
-    this.upsertItineraryItem.emit(newItineraryItem);
+    // this.upsertItineraryItem.emit(newItineraryItem);
   }
 
   constructor(private fb: FormBuilder, private tripStore: Store<TripState>) {

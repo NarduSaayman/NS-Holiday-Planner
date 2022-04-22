@@ -1,21 +1,33 @@
-<div class="flex flex-col justify-center">
-  <div class="text-center" *ngIf="(selectedTrip$ | async)?.itinerary">
-    <h2>
-      Seems like you've got no plans for your trip to
-      {{ (selectedTrip$ | async)?.name }}!
-    </h2>
-    <h3>Want to add an event?</h3>
-  </div>
-  <button nz-button (click)="addItinItem()">Add Itinerary Event</button>
-  <div *ngFor="let item of (selectedTrip$ | async)?.itinerary">
-    <app-itinerary-item></app-itinerary-item>
-    <button (click)="editItinItem(item)">Edit</button>
-    <button (click)="removeItinItem(item)">Delete</button>
-  </div>
+<div class="flex">
+  <div class="w-8/12"><app-calendar></app-calendar></div>
+  <div class="flex w-4/12 flex-col justify-center mb-auto">
+    <div class="text-center" *ngIf="(selectedTrip$ | async)?.itinerary">
+      <h2>
+        Seems like you've got no plans for your trip to
+        {{ (selectedTrip$ | async)?.name }}!
+      </h2>
+      <h3>Want to add an event?</h3>
+    </div>
+    <button nz-button (click)="addItinItem()">Add Itinerary Event</button>
+    <div *ngFor="let item of (selectedTrip$ | async)?.itinerary">
+      <app-itinerary-item></app-itinerary-item>
+      <button (click)="editItinItem(item)">Edit</button>
+      <button (click)="removeItinItem(item)">Delete</button>
+    </div>
 
-  <app-itinerary-form
-    *ngIf="showItinItemForm"
-    [formItinItem]="itinItemToEdit"
-    (upsertItineraryItem)="upsertItinItem($event)"
-  ></app-itinerary-form>
+    <nz-modal
+      [(nzVisible)]="showItinItemForm"
+      nzTitle="Itinerary Event"
+      (nzOnCancel)="handleCancel()"
+    >
+      <ng-container *nzModalContent>
+        <app-itinerary-form
+          *ngIf="showItinItemForm"
+          [formItinItem]="itinItemToEdit"
+          (upsertItineraryItem)="upsertItinItem($event)"
+        ></app-itinerary-form>
+      </ng-container>
+      <div *nzModalFooter></div>
+    </nz-modal>
+  </div>
 </div>
