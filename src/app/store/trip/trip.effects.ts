@@ -1,23 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { catchError, map, concatMap, withLatestFrom } from 'rxjs/operators';
+import { EMPTY, of } from 'rxjs';
 
 import * as TripActions from './trip.actions';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/firestore.service';
+import { selectCurrentUser } from '../user/user.selectors';
+import { setCurrentUser } from '../user/user.actions';
+import { select, Store } from '@ngrx/store';
+import { UserState } from '../user/user.reducer';
 
 @Injectable()
 export class TripEffects {
   getTrips$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(TripActions.getTrips),
-      concatMap(() =>
-        this.userService.getUserTrips().pipe(
-          map((userTrips) => TripActions.getTripsComplete({ userTrips })),
+      ofType(TripActions.getTrips, setCurrentUser),
+      withLatestFrom(this.userStore.pipe(select(selectCurrentUser))),
+      concatMap(([action, currentUser]) => {
+        if (!currentUser) return EMPTY;
+        return this.userService.getUserTrips(currentUser?.uid).pipe(
+          map((userTrips) => {
+            return TripActions.getTripsComplete({ userTrips });
+          }),
           catchError((error) => {
             this.notificationService.error(
-              `Sorry, couldn't get exhange rates.`,
+              `Sorry, couldn't get your trips.`,
               error.toString(),
               { nzDuration: 0 }
             );
@@ -27,28 +35,84 @@ export class TripEffects {
               })
             );
           })
+        );
+      })
+    );
+  });
+
+  addTrip$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TripActions.addTrip),
+      withLatestFrom(this.userStore.pipe(select(selectCurrentUser))),
+      concatMap(([{ newTrip }, currentUser]) => {
+        if (!currentUser) return EMPTY;
+        return this.userService.addUserTrip(newTrip, currentUser.uid).pipe(
+          map(() => TripActions.getTrips()),
+          catchError((error) => {
+            this.notificationService.error(
+              `Sorry, couldn't add your trip.`,
+              error.toString(),
+              { nzDuration: 0 }
+            );
+            return EMPTY;
+          })
+        );
+      })
+    );
+  });
+
+  updateTrip$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TripActions.updateTrip),
+      concatMap(({ updatedTrip }) =>
+        this.userService.updateUserTrip(updatedTrip).pipe(
+          map(() => TripActions.getTrips()),
+          catchError((error) => {
+            this.notificationService.error(
+              `Sorry, couldn't update that trip.`,
+              error.toString(),
+              { nzDuration: 0 }
+            );
+            return EMPTY;
+          })
         )
       )
     );
   });
 
-  getTrip$ = createEffect((tripID: string) => {
+  deleteTrip$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(TripActions.getTrip),
-      concatMap(() =>
-        this.userService.getUserTrip(tripID).pipe(
-          map((userTrip) => TripActions.getTripComplete({ userTrip })),
+      ofType(TripActions.deleteTrip),
+      concatMap(({ tripToDelete }) =>
+        this.userService.updateUserTrip(tripToDelete).pipe(
+          map(() => TripActions.getTrips()),
           catchError((error) => {
             this.notificationService.error(
-              `Sorry, couldn't get exhange rates.`,
+              `Sorry, couldn't delete that trip.`,
               error.toString(),
               { nzDuration: 0 }
             );
-            return of(
-              TripActions.getTripComplete({
-                userTrip: 
-              })
+            return EMPTY;
+          })
+        )
+      )
+    );
+  });
+
+  //TODO
+  deleteItinerary$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TripActions.deleteItinerary),
+      concatMap(({ filteredTrip }) =>
+        this.userService.updateUserTrip(filteredTrip).pipe(
+          map(() => TripActions.getTrips()),
+          catchError((error) => {
+            this.notificationService.error(
+              `Sorry, couldn't add your trip.`,
+              error.toString(),
+              { nzDuration: 0 }
             );
+            return EMPTY;
           })
         )
       )
@@ -58,6 +122,7 @@ export class TripEffects {
   constructor(
     private actions$: Actions,
     private userService: UserService,
-    private notificationService: NzNotificationService
+    private notificationService: NzNotificationService,
+    private userStore: Store<UserState>
   ) {}
 }
