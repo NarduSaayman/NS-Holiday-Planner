@@ -1,47 +1,158 @@
 <form
   nz-form
   nzNoColon="true"
+  nzLayout="vertical"
   [formGroup]="itineraryItemForm"
   (ngSubmit)="emitItineraryItem()"
 >
-  <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
-    <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="userErrorTpl">
+  <nz-form-item class="group items-center">
+    <nz-form-label class="my-auto" [nzSpan]="8" nzRequired>Name</nz-form-label>
+    <nz-form-control
+      class="formfield w-full"
+      nzHasFeedback
+      [nzErrorTip]="userErrorTpl"
+    >
       <input
+        nzBorderless
         nz-input
         formControlName="itinItemName"
         placeholder="e.g. Lunch, Dinner, Beach"
+        [nzSize]="'large'"
       />
       <ng-template #userErrorTpl let-control>
         <ng-container *ngIf="control.hasError('required')"
-          >Your intinerary item has to at least have a name!</ng-container
+          >You at least have to have a name!</ng-container
         >
       </ng-template>
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSpan]="7">Description</nz-form-label>
-    <nz-form-control [nzSpan]="12">
+  <nz-form-item class="group items-center">
+    <nz-form-label [nzSpan]="8">Description</nz-form-label>
+    <nz-form-control class="formfield w-full" [nzSpan]="16">
       <input
+        nzBorderless
         nz-input
         formControlName="itinItemDescription"
         placeholder="e.g. Going to the beach."
       />
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSpan]="7"></nz-form-label>
+  <nz-form-item class="group items-center">
     <nz-form-control [nzSpan]="12">
-      <nz-radio-group>
-        <label nz-radio-button [nzValue]="'destination'">Destination</label>
-        <label nz-radio-button [nzValue]="'travel'">Travel</label>
+      <nz-radio-group
+        nzSize="large"
+        class="formfield w-full"
+        nzButtonStyle="solid"
+        formControlName="itinItemTag"
+      >
+        <label
+          style="border: 0px"
+          class="formfield hover:bg-blue-200"
+          nz-radio-button
+          [nzValue]="'destination'"
+          >Destination</label
+        >
+        <label
+          style="border: 0px"
+          class="formfield hover:bg-blue-200"
+          nz-radio-button
+          [nzValue]="'travel'"
+          >Travel</label
+        >
       </nz-radio-group>
     </nz-form-control>
   </nz-form-item>
+
+  <div
+    *ngIf="itineraryItemForm.controls['itinItemTag'].value === 'travel'"
+    [@inOutAnimation]
+  >
+    <nz-form-item class="group items-center">
+      <nz-form-label [nzSpan]="8">Start Location</nz-form-label>
+      <nz-form-control class="formfield" [nzSpan]="12">
+        <input
+          nzBorderless
+          nz-input
+          formControlName="startLocation"
+          placeholder="Select Location"
+        />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="group items-center">
+      <nz-form-label [nzSpan]="8">End Location</nz-form-label>
+      <nz-form-control class="formfield" [nzSpan]="12">
+        <input
+          nzBorderless
+          nz-input
+          formControlName="endLocation"
+          placeholder="Select Location"
+        />
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <nz-form-item class="group items-center">
+    <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired
+      >Start and End Date</nz-form-label
+    >
+    <nz-form-control
+      class="formfield"
+      [nzSm]="16"
+      [nzXs]="24"
+      nzHasFeedback
+      [nzErrorTip]="dateErrorTpl"
+    >
+      <nz-range-picker
+        style="border: 0px"
+        nzShowTime
+        formControlName="itinItemStartEndTime"
+      ></nz-range-picker>
+      <ng-template #dateErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Be sure to pick a start and end time for your event!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <div class="flex flex-wrap flex-row justify-center items-center gap-4">
+    <nz-form-item class="group items-center min-w-1/2 max-w-full">
+      <nz-form-label nzTooltipTitle="Estimated cost of the event."
+        >Cost Estimate</nz-form-label
+      >
+      <nz-form-control class="formfield">
+        <nz-input-group style="border: 0px" nzSuffix=".00" nzPrefix="$">
+          <nz-input-number
+            style="border: 0px"
+            formControlName="itinItemCostEstimate"
+            [nzMin]="0"
+            [nzMax]="10000"
+            [nzStep]="5"
+          >
+          </nz-input-number>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="group items-center w-full sm:w-1/2">
+      <nz-form-label>Notes</nz-form-label>
+      <nz-form-control class="formfield w-full">
+        <textarea
+          nzBorderless
+          formControlName="itinItemNotes"
+          nz-input
+          rows="2"
+          placeholder="Anything you'd like to add about this event?"
+        ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
   <nz-form-item>
-    <nz-form-control [nzOffset]="7" [nzSpan]="12">
-      <button nz-button nzType="primary" [disabled]="!itineraryItemForm.valid">
-        Create Trip
+    <nz-form-control class="items-center">
+      <button class="primary-button" [disabled]="!itineraryItemForm.valid">
+        {{ isExistingItem ? "Update Event" : "Create Event" }}
       </button>
     </nz-form-control>
   </nz-form-item>

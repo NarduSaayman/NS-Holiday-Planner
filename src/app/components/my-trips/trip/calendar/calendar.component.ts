@@ -1,39 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { ItineraryItem, Tag, Trip } from 'src/app/models/trip';
+import { TripState } from 'src/app/store/trip/trip.reducer';
+import { selectSelectedTrip } from 'src/app/store/trip/trip.selectors';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
-export class CalendarComponent implements OnInit {
-  constructor() {}
+export class CalendarComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<null>();
+  selectedTrip$: Observable<Trip>;
+  currentTrip!: Trip;
+  itinerary!: ItineraryItem[];
 
-  ngOnInit(): void {}
+  constructor(private tripStore: Store<TripState>) {
+    this.selectedTrip$ = tripStore.pipe(select(selectSelectedTrip));
+  }
 
-  listDataMap = {
-    eight: [
-      { type: 'warning', content: 'This is warning event.' },
-      { type: 'success', content: 'This is usual event.' },
-    ],
-    ten: [
-      { type: 'warning', content: 'This is warning event.' },
-      { type: 'success', content: 'This is usual event.' },
-      { type: 'error', content: 'This is error event.' },
-    ],
-    eleven: [
-      { type: 'warning', content: 'This is warning event' },
-      { type: 'success', content: 'This is very long usual event........' },
-      { type: 'error', content: 'This is error event 1.' },
-      { type: 'error', content: 'This is error event 2.' },
-      { type: 'error', content: 'This is error event 3.' },
-      { type: 'error', content: 'This is error event 4.' },
-    ],
-  };
+  trackItineraryItem(index: number, itinerary: ItineraryItem) {
+    return itinerary.name + itinerary.startEndTime.startDate + index;
+  }
 
-  getMonthData(date: Date): number | null {
-    if (date.getMonth() === 8) {
-      return 1394;
-    }
-    return null;
+  ngOnInit(): void {
+    this.selectedTrip$.pipe(takeUntil(this.destroy$)).subscribe((trip) => {
+      this.currentTrip = trip;
+      this.itinerary = trip?.itinerary;
+      // this.itinerary = [
+      //   {
+      //     name: 'Test',
+      //     costEstimate: 100,
+      //     tag: Tag.DESTINATION,
+      //     startEndTime: { startDate: new Date() },
+      //   },
+      //   {
+      //     name: 'Test2',
+      //     costEstimate: 1200,
+      //     tag: Tag.TRAVEL,
+      //     startEndTime: {
+      //       startDate: new Date(new Date().setHours(new Date().getHours() + 4)),
+      //     },
+      //   },
+      // ];
+    });
+  }
+
+  getItinDate(date: Date) {
+    console.log('date:', date);
+    return new Date(date).getDate();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 }

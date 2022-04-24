@@ -1,13 +1,20 @@
 <form
   nz-form
   nzNoColon="true"
+  nzLayout="vertical"
   [formGroup]="newTripForm"
   (ngSubmit)="emitTrip()"
 >
-  <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
-    <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="userErrorTpl">
+  <nz-form-item class="group items-center">
+    <nz-form-label [nzSpan]="8" nzRequired>Name</nz-form-label>
+    <nz-form-control
+      class="formfield w-full md:w-8/12"
+      nzHasFeedback
+      [nzErrorTip]="userErrorTpl"
+    >
       <input
+        nzSize="large"
+        nzBorderless
         nz-input
         formControlName="tripName"
         placeholder="e.g. Tokyo Holiday"
@@ -19,17 +26,23 @@
       </ng-template>
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSpan]="7">Location</nz-form-label>
-    <nz-form-control [nzSpan]="12">
-      <input nz-input formControlName="tripLocation" placeholder="e.g. Tokyo" />
+  <nz-form-item class="group items-center">
+    <nz-form-label [nzSpan]="8">Location</nz-form-label>
+    <nz-form-control class="formfield w-full md:w-8/12">
+      <input
+        nz-input
+        nzBorderless
+        formControlName="tripLocation"
+        placeholder="e.g. Tokyo"
+      />
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSpan]="7">Description</nz-form-label>
-    <nz-form-control [nzSpan]="12" n>
+  <nz-form-item class="group items-center">
+    <nz-form-label [nzSpan]="8">Description</nz-form-label>
+    <nz-form-control class="formfield w-full md:w-8/12">
       <textarea
         formControlName="tripDescription"
+        nzBorderless
         nz-input
         rows="2"
         placeholder="Anything you'd like to add about this trip?"
@@ -37,13 +50,9 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control [nzOffset]="7" [nzSpan]="12">
-      <button nz-button nzType="primary" [disabled]="!newTripForm.valid">
-        <ng-container
-          *ngIf="isExistingTrip; then UpdateTrip; else CreateTrip"
-        ></ng-container>
-        <ng-template #UpdateTrip>Update Trip</ng-template>
-        <ng-template #CreateTrip>Create Trip</ng-template>
+    <nz-form-control class="items-center">
+      <button class="primary-button" [disabled]="!newTripForm.valid">
+        {{ isExistingTrip ? "Update Trip" : "Create Trip" }}
       </button>
     </nz-form-control>
   </nz-form-item>

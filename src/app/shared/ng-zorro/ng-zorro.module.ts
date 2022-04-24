@@ -11,6 +11,9 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 
 @NgModule({
   declarations: [],
@@ -29,6 +32,9 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     NzCardModule,
     NzRadioModule,
     NzModalModule,
+    NzDatePickerModule,
+    NzInputNumberModule,
+    NzTimelineModule,
   ],
   exports: [
     //Ng-Zorro
@@ -43,6 +49,9 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     NzCardModule,
     NzRadioModule,
     NzModalModule,
+    NzDatePickerModule,
+    NzInputNumberModule,
+    NzTimelineModule,
   ],
 })
 export class NgZorroModule {}

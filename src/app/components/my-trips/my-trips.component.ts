@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Trip } from 'src/app/models/trip';
 import {
   addTrip,
+  deleteTrip,
   deleteTripByID,
   getTrips,
   setSelectedTrip,
@@ -41,6 +42,7 @@ export class MyTripsComponent implements OnInit {
     if (trip?.tripID?.length > 0) {
       this.tripStore.dispatch(updateTrip({ updatedTrip: trip }));
     } else this.tripStore.dispatch(addTrip({ newTrip: trip }));
+    this.showTripForm = false;
   }
 
   editTrip(trip: Trip) {
@@ -54,9 +56,7 @@ export class MyTripsComponent implements OnInit {
   }
 
   deleteTrip(trip: Trip) {
-    this.tripStore.dispatch(
-      deleteTripByID({ tripToDelete: trip, tripDocID: '' })
-    );
+    this.tripStore.dispatch(deleteTrip({ tripToDelete: trip }));
   }
 
   viewTrip(trip: Trip) {

@@ -1,27 +1,18 @@
 <nz-calendar>
   <ul *nzDateCell="let date" class="events">
-    <ng-container [ngSwitch]="date.getDate()">
-      <ng-container *ngSwitchCase="8">
-        <li *ngFor="let item of listDataMap.eight">
-          <nz-badge [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
-        </li>
-      </ng-container>
-      <ng-container *ngSwitchCase="10">
-        <li *ngFor="let item of listDataMap.ten">
-          <nz-badge [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
-        </li>
-      </ng-container>
-      <ng-container *ngSwitchCase="11">
-        <li *ngFor="let item of listDataMap.eleven">
-          <nz-badge [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
-        </li>
-      </ng-container>
+    <ng-container [ngSwitch]="date">
+      <div *ngFor="let event of itinerary; trackBy: trackItineraryItem">
+        <nz-timeline *ngSwitchCase="event.startEndTime.startDate">
+          <nz-timeline-item>
+            <div class="bg-blue-200 py-1 px-2 rounded-lg text-center mt-2">
+              {{ event?.name }}
+            </div>
+            <div class="-mb-2 bg-gray-100 rounded-lg text-center">
+              @ {{ event?.startEndTime?.startDate | date: "HH:MM" }}
+            </div>
+          </nz-timeline-item>
+        </nz-timeline>
+      </div>
     </ng-container>
   </ul>
-  <ng-container *nzMonthCell="let month">
-    <div *ngIf="getMonthData(month) as monthData" class="notes-month">
-      <section>{{ monthData }}</section>
-      <span>Backlog number</span>
-    </div>
-  </ng-container>
 </nz-calendar>

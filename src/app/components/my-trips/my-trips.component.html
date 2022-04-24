@@ -4,12 +4,11 @@
     <h3>Want to go any where exciting?</h3>
   </div>
 
-  <button nz-button (click)="addTrip()">Add Trip</button>
+  <button class="primary-button" (click)="addTrip()">Add Trip</button>
 
-  <button nz-button (click)="getTrips()">Get Trips</button>
   <div class="flex flex-row gap-4 flex-wrap justify-center">
     <div
-      class="w-1/4 rounded-lg overflow-hidden"
+      class="min-w-1/4 rounded-lg overflow-hidden"
       *ngFor="let trip of userTrips$ | async; trackBy: trackTrip"
     >
       <nz-card
@@ -49,12 +48,17 @@
     </div>
   </div>
 
-  <nz-modal
-    [(nzVisible)]="showTripForm"
-    nzTitle="Trip: {{ tripToEdit?.name }}"
-    (nzOnCancel)="handleCancel()"
-  >
+  <nz-modal [(nzVisible)]="showTripForm" (nzOnCancel)="handleCancel()">
     <ng-container *nzModalContent>
+      <div class="p-5">
+        <h2 class="text-center font-bold">
+          {{
+            tripToEdit?.name
+              ? "Change of plans?"
+              : "Where does the adventure begin?"
+          }}
+        </h2>
+      </div>
       <app-trip-form
         *ngIf="showTripForm"
         [formTrip]="tripToEdit"
