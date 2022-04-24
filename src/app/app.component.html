@@ -8,9 +8,12 @@
     [nzTrigger]="null"
   >
     <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
-        <h1>Ant Design Of Angular</h1>
+      <a href="" target="_blank">
+        <img
+          src="https://cdn.betterttv.net/emote/5e0502e69e2cd00d968d5677/3x"
+          alt="logo"
+        />
+        <h1>Feriae Planner</h1>
       </a>
     </div>
     <ul
@@ -19,32 +22,36 @@
       nzMode="inline"
       [nzInlineCollapsed]="isCollapsed"
     >
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+      <li nz-submenu nzOpen nzTitle="Home" nzIcon="home">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/welcome">Welcome</a>
+            <a routerLink="/">Home</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a>Monitor</a>
+            <a>About</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a>Workplace</a>
+            <a>Contact</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
+      <li nz-submenu nzOpen nzTitle="Trips" nzIcon="form">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a>Basic Form</a>
+            <a routerLink="/my-trips">My Trips</a>
           </li>
         </ul>
       </li>
-      <li *ngIf="isLoggedIn()" nz-submenu nzOpen nzTitle="Logout" nzIcon="user">
+      <li nz-submenu nzOpen nzTitle="User" nzIcon="user">
         <ul>
-          <li nz-menu-item nzMatchRouter>
-            <button (click)="logout()" nz-button nzType="primary">
-              Logout
-            </button>
+          <li
+            *ngIf="isLoggedIn$ | async"
+            nz-menu-item
+            nzOpen
+            nzTitle="Logout"
+            nzIcon="user"
+          >
+            <button (click)="logout()">Logout</button>
           </li>
         </ul>
       </li>
@@ -63,7 +70,7 @@
       </div>
     </nz-header>
     <nz-content>
-      <div class="bg-slate-800 inner-content">
+      <div class="bg-slate-800 inner-content overflow-scroll">
         <router-outlet></router-outlet>
       </div>
     </nz-content>

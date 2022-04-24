@@ -1,0 +1,59 @@
+<form
+  nz-form
+  nzNoColon="true"
+  nzLayout="vertical"
+  [formGroup]="newTripForm"
+  (ngSubmit)="emitTrip()"
+>
+  <nz-form-item class="group items-center">
+    <nz-form-label [nzSpan]="8" nzRequired>Name</nz-form-label>
+    <nz-form-control
+      class="formfield w-full md:w-8/12"
+      nzHasFeedback
+      [nzErrorTip]="userErrorTpl"
+    >
+      <input
+        nzSize="large"
+        nzBorderless
+        nz-input
+        formControlName="tripName"
+        placeholder="e.g. Tokyo Holiday"
+      />
+      <ng-template #userErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Your trip has to at least have a name!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item class="group items-center">
+    <nz-form-label [nzSpan]="8">Location</nz-form-label>
+    <nz-form-control class="formfield w-full md:w-8/12">
+      <input
+        nz-input
+        nzBorderless
+        formControlName="tripLocation"
+        placeholder="e.g. Tokyo"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item class="group items-center">
+    <nz-form-label [nzSpan]="8">Description</nz-form-label>
+    <nz-form-control class="formfield w-full md:w-8/12">
+      <textarea
+        formControlName="tripDescription"
+        nzBorderless
+        nz-input
+        rows="2"
+        placeholder="Anything you'd like to add about this trip?"
+      ></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control class="items-center">
+      <button class="primary-button" [disabled]="!newTripForm.valid">
+        {{ isExistingTrip ? "Update Trip" : "Create Trip" }}
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

@@ -51,3 +51,20 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+@layer components {
+  .formfield {
+    @apply group-focus-within:border-blue-400 group-focus-within:shadow-md
+    transition duration-300 
+    rounded-2xl overflow-hidden shadow-sm border-2 border-blue-100 
+    hover:border-blue-200;
+  }
+  .primary-button {
+    @apply bg-button-primary text-white py-2 px-4
+    cursor-pointer
+    transition-all ease-in-out
+    rounded-lg hover:rounded-2xl
+    disabled:bg-gray-50 disabled:cursor-default disabled:rounded-full disabled:text-gray-400
+    hover:bg-blue-400;
+  }
+}

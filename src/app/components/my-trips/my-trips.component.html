@@ -1,1 +1,70 @@
-<p>my-trips works!</p>
+<div class="flex flex-col gap-5 justify-center">
+  <div class="text-center" *ngIf="(userTrips$ | async)?.length === 0">
+    <h2>Seems that you don't have any trips planned!</h2>
+    <h3>Want to go any where exciting?</h3>
+  </div>
+
+  <button class="primary-button" (click)="addTrip()">Add Trip</button>
+
+  <div class="flex flex-row gap-4 flex-wrap justify-center">
+    <div
+      class="min-w-1/4 rounded-lg overflow-hidden"
+      *ngFor="let trip of userTrips$ | async; trackBy: trackTrip"
+    >
+      <nz-card
+        [nzCover]="coverTemplate"
+        [nzActions]="[actionView, actionEdit, actionDelete]"
+      >
+        <nz-card-meta
+          (click)="viewTrip(trip)"
+          class="cursor-pointer"
+          nzTitle="{{ trip.name }}"
+          nzDescription="{{ trip?.description }}"
+        ></nz-card-meta>
+      </nz-card>
+      <ng-template #coverTemplate>
+        <img
+          (click)="viewTrip(trip)"
+          class="cursor-pointer"
+          alt="example"
+          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+        />
+      </ng-template>
+      <ng-template #actionView>
+        <button (click)="$event.stopPropagation(); viewTrip(trip)">
+          <i nz-icon nzType="eye"></i>
+        </button>
+      </ng-template>
+      <ng-template #actionEdit>
+        <button (click)="$event.stopPropagation(); editTrip(trip)">
+          <i nz-icon nzType="edit"></i>
+        </button>
+      </ng-template>
+      <ng-template #actionDelete>
+        <button (click)="$event.stopPropagation(); deleteTrip(trip)">
+          <i nz-icon nzType="delete"></i>
+        </button>
+      </ng-template>
+    </div>
+  </div>
+
+  <nz-modal [(nzVisible)]="showTripForm" (nzOnCancel)="handleCancel()">
+    <ng-container *nzModalContent>
+      <div class="p-5">
+        <h2 class="text-center font-bold">
+          {{
+            tripToEdit?.name
+              ? "Change of plans?"
+              : "Where does the adventure begin?"
+          }}
+        </h2>
+      </div>
+      <app-trip-form
+        *ngIf="showTripForm"
+        [formTrip]="tripToEdit"
+        (upsertTrip)="upsertTrip($event)"
+      ></app-trip-form>
+    </ng-container>
+    <div *nzModalFooter></div>
+  </nz-modal>
+</div>

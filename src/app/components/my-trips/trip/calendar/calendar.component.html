@@ -1,0 +1,18 @@
+<nz-calendar>
+  <ul *nzDateCell="let date" class="events">
+    <ng-container [ngSwitch]="date">
+      <div *ngFor="let event of itinerary; trackBy: trackItineraryItem">
+        <nz-timeline *ngSwitchCase="event.startEndTime.startDate">
+          <nz-timeline-item>
+            <div class="bg-blue-200 py-1 px-2 rounded-lg text-center mt-2">
+              {{ event?.name }}
+            </div>
+            <div class="-mb-2 bg-gray-100 rounded-lg text-center">
+              @ {{ event?.startEndTime?.startDate | date: "HH:MM" }}
+            </div>
+          </nz-timeline-item>
+        </nz-timeline>
+      </div>
+    </ng-container>
+  </ul>
+</nz-calendar>

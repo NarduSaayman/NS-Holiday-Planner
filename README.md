@@ -6,18 +6,18 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 
 ## Plan of action
 
-- [ ] Data Strucutres
-- [ ] Scribble some layouts
+- [x] Data Strucutres
+- [x] Scribble some layouts
 - [ ] Routes / Lazy Loading
-- [ ] API
-- [ ] State Management
-- [ ] Jank Components
-- [ ] Smart and dumb Components (refactor the jank)
+- [x] API
+- [x] State Management
+- [x] Jank Components
+- [x] Smart and dumb Components (refactor the jank)
 - [ ] Fix Design
 - [ ] Check Requirement Spec
 - [ ] Then cool things
 
-# - [ ] Remember to clean up observables!!!!
+- [ ] Remember to clean up observables!!!!
 
 ## Brief
 
@@ -33,44 +33,44 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 - [x] Tag
 - [x] Start time
 - [x] End time
-- [ ] Cost estimate (and it's conversion to ZAR)
+- [x] Cost estimate (and it's conversion to ZAR)
 - [x] (Optional) Start location (lat, lon)
 - [x] (Optional) End location (lat, lon)
 - [x] (Optional) Notes
 
 ## Backend
 
-- [ ] Firebase (or other similarly functional backend)
-- [ ] Sign up/Log in (Auth)
-- [ ] Tables/Documents (Full CRUD support):
-  - [ ] Users
-  - [ ] Trips
-  - [ ] Itinerary Item
+- [x] Firebase (or other similarly functional backend)
+- [x] Sign up/Log in (Auth)
+- [x] Tables/Documents (Full CRUD support):
+  - [x] Users
+  - [x] Trips
+  - [x] Itinerary Item
 
 ## Angular
 
-- [ ] Container & Presentational components
+- [x] Container & Presentational components
 - [ ] Pipe(s)
-- [ ] Evaluated attributes
-- [ ] Proper management of lists i.e. trackBy
-- [ ] Form handling
-- [ ] Only absolutely necessary and cleaned up observable$ subscriptions (if any)
-- [ ] Event handling
-- [ ] State management - NgRx Store
-  - [ ] Actions, Reducers, Selectors
-  - [ ] Effects
+- [x] Evaluated attributes
+- [x] Proper management of lists i.e. trackBy
+- [x] Form handling
+- [x] Only absolutely necessary and cleaned up observable$ subscriptions (if any)
+- [x] Event handling
+- [x] State management - NgRx Store
+  - [x] Actions, Reducers, Selectors
+  - [x] Effects
 - [ ] Routing:
   - [ ] Clean routing
   - [ ] Route guards
   - [ ] **Routes:**
-    - [ ] Login
-    - [ ] MyTrips
-    - [ ] Trip/:id
-    - [ ] Trip/:id/event/:eventId
+    - [x] Login
+    - [x] MyTrips
+    - [-] Trip/:id
+    - [-] Trip/:id/event/:eventId
     - Only the login route can be unprotected, the rest can be modularised and lazy loaded
-- [ ] Network calls
-  - [ ] Full CRUD capabilities
-  - [ ] Proper use of the httpClient (rtfm)
+- [x] Network calls
+  - [x] Full CRUD capabilities
+  - [x] Proper use of the httpClient (rtfm)
 
 ### Component library options
 
@@ -105,8 +105,8 @@ The goal of this project is to build an Angular Holiday Planner App, using and i
 ## Bonuses **Only touch after everything else has been checked**
 
 - [ ] PWA
-- [ ] Cool Selectors
-- [ ] Flexing your RxJS knowledge
+- [x] Cool Selectors
+- [x] Flexing your RxJS knowledge
 - [ ] Extra mile stuff anywhere
 - [ ] Animations
 - [ ] Excellent design

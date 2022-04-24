@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
         this.loginForm.controls['email'].value,
         this.loginForm.controls['password'].value
       );
-      this.loginSuccess = this.authService.succesfulLogin();
       console.log(this.loginSuccess);
     } else {
       Object.values(this.loginForm.controls).forEach((control) => {

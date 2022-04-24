@@ -6,8 +6,7 @@ import { AppComponent } from './app.component';
 import { UserComponent } from './components/user/user.component';
 import { RegisterComponent } from './components/user/register/register.component';
 import { LoginComponent } from './components/user/login/login.component';
-import { ItineraryComponent } from './components/itinerary/itinerary.component';
-import { CalendarComponent } from './components/calendar/calendar.component';
+import { CalendarComponent } from './components/my-trips/trip/calendar/calendar.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HomeComponent } from './components/home/home.component';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -18,32 +17,24 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideDatabase, getDatabase } from '@angular/fire/database';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { MyTripsComponent } from './components/my-trips/my-trips.component';
-
-//Firebase services
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 
 import { AuthService } from './services/auth.service';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromExchange from './store/exchange/exchange.reducer';
+import * as fromTrip from './store/trip/trip.reducer';
+import { SharedModule } from './shared/shared/shared.module';
+import { NgZorroModule } from './shared/ng-zorro/ng-zorro.module';
+import { FirebaseModule } from './shared/firebase/firebase.module';
+import { TripEffects } from './store/trip/trip.effects';
 import { ExchangeEffects } from './store/exchange/exchange.effects';
+import * as fromUser from './store/user/user.reducer';
+import { TripComponent } from './components/my-trips/trip/trip.component';
+import { ItineraryFormComponent } from './components/my-trips/trip/itinerary-form/itinerary-form.component';
 
 registerLocaleData(en);
 
@@ -53,45 +44,37 @@ registerLocaleData(en);
     UserComponent,
     RegisterComponent,
     LoginComponent,
-    ItineraryComponent,
     CalendarComponent,
     NotFoundComponent,
     HomeComponent,
-    VerifyEmailComponent,
-    MyTripsComponent,
+    TripComponent,
+    ItineraryFormComponent,
   ],
   imports: [
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NzFormModule,
-    NzButtonModule,
-    NzInputModule,
+    //http
     HttpClientModule,
     BrowserAnimationsModule,
     IconsProviderModule,
-    NzLayoutModule,
-    NzMenuModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideDatabase(() => getDatabase()),
-    provideFirestore(() => getFirestore()),
     StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
+    EffectsModule.forFeature([TripEffects, ExchangeEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([]),
     StoreModule.forFeature(
       fromExchange.exchangeFeatureKey,
       fromExchange.reducer
     ),
+    StoreModule.forFeature(fromTrip.tripFeatureKey, fromTrip.reducer),
+    StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
+    SharedModule,
+    NgZorroModule,
+    FirebaseModule,
   ],
   providers: [AuthService, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
