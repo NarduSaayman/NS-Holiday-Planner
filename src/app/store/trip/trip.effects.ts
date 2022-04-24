@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap, withLatestFrom } from 'rxjs/operators';
+import { act, Actions, createEffect, ofType } from '@ngrx/effects';
+import {
+  catchError,
+  map,
+  concatMap,
+  withLatestFrom,
+  first,
+} from 'rxjs/operators';
 import { EMPTY, of } from 'rxjs';
 
 import * as TripActions from './trip.actions';
@@ -64,8 +70,34 @@ export class TripEffects {
   updateTrip$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(TripActions.updateTrip),
-      concatMap(({ updatedTrip }) =>
-        this.userService.updateUserTrip(updatedTrip).pipe(
+      concatMap(({ updatedTrip }) => {
+        return this.userService.getTripDocID(updatedTrip).pipe(
+          first(),
+          map((res) => {
+            if (!res) throw new Error(`Couldn't find that Trip`);
+            return TripActions.updateTripByID({
+              updatedTrip,
+              tripDocID: res,
+            });
+          }),
+          catchError((error) => {
+            this.notificationService.error(
+              `Sorry, couldn't update that trip.`,
+              error.toString(),
+              { nzDuration: 0 }
+            );
+            return EMPTY;
+          })
+        );
+      })
+    );
+  });
+
+  updateTripByID$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TripActions.updateTripByID),
+      concatMap(({ updatedTrip, tripDocID }) =>
+        this.userService.updateUserTrip(updatedTrip, tripDocID).pipe(
           map(() => TripActions.getTrips()),
           catchError((error) => {
             this.notificationService.error(
@@ -83,9 +115,16 @@ export class TripEffects {
   deleteTrip$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(TripActions.deleteTrip),
-      concatMap(({ tripToDelete }) =>
-        this.userService.updateUserTrip(tripToDelete).pipe(
-          map(() => TripActions.getTrips()),
+      concatMap(({ tripToDelete }) => {
+        return this.userService.getTripDocID(tripToDelete).pipe(
+          first(),
+          map((res) => {
+            if (!res) throw new Error(`Couldn't find that Trip`);
+            return TripActions.deleteTripByID({
+              tripToDelete,
+              tripDocID: res,
+            });
+          }),
           catchError((error) => {
             this.notificationService.error(
               `Sorry, couldn't delete that trip.`,
@@ -94,21 +133,20 @@ export class TripEffects {
             );
             return EMPTY;
           })
-        )
-      )
+        );
+      })
     );
   });
 
-  //TODO
-  deleteItinerary$ = createEffect(() => {
+  deleteTripByID$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(TripActions.deleteItinerary),
-      concatMap(({ filteredTrip }) =>
-        this.userService.updateUserTrip(filteredTrip).pipe(
+      ofType(TripActions.deleteTripByID),
+      concatMap(({ tripDocID }) =>
+        this.userService.deleteUserTrip(tripDocID).pipe(
           map(() => TripActions.getTrips()),
           catchError((error) => {
             this.notificationService.error(
-              `Sorry, couldn't add your trip.`,
+              `Sorry, couldn't delete that trip.`,
               error.toString(),
               { nzDuration: 0 }
             );

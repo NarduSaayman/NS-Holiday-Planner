@@ -27,6 +27,9 @@ export const selectTrips = createSelector(selectTripState, (state) =>
           lastItinItem.startEndTime.endDate ||
           lastItinItem.startEndTime.startDate,
       };
+      trip.itinerary.map(
+        ({ costEstimate }) => (trip.totalCost += costEstimate)
+      );
     }
     return trip;
   })

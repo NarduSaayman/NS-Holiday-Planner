@@ -20,6 +20,7 @@ export const initialState: TripState = {
     userID: '',
     tripID: '',
     startEndDate: { startDate: new Date() },
+    totalCost: 0,
   },
   selectedTrip: {
     name: '',
@@ -27,6 +28,7 @@ export const initialState: TripState = {
     userID: '',
     tripID: '',
     startEndDate: { startDate: new Date() },
+    totalCost: 0,
   },
 };
 
@@ -42,5 +44,10 @@ export const reducer = createReducer(
     ...state,
     isLoading: false,
     userTrips,
+  })),
+
+  on(TripActions.setSelectedTrip, (state, { selectedTrip }) => ({
+    ...state,
+    selectedTrip,
   }))
 );

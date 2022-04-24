@@ -1,0 +1,48 @@
+<form
+  nz-form
+  nzNoColon="true"
+  [formGroup]="itineraryItemForm"
+  (ngSubmit)="emitItineraryItem()"
+>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="userErrorTpl">
+      <input
+        nz-input
+        formControlName="itinItemName"
+        placeholder="e.g. Lunch, Dinner, Beach"
+      />
+      <ng-template #userErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Your intinerary item has to at least have a name!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">Description</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <input
+        nz-input
+        formControlName="itinItemDescription"
+        placeholder="e.g. Going to the beach."
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7"></nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-radio-group>
+        <label nz-radio-button [nzValue]="'destination'">Destination</label>
+        <label nz-radio-button [nzValue]="'travel'">Travel</label>
+      </nz-radio-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <button nz-button nzType="primary" [disabled]="!itineraryItemForm.valid">
+        Create Trip
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
