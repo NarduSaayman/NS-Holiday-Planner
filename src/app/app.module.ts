@@ -34,9 +34,7 @@ import { TripEffects } from './store/trip/trip.effects';
 import { ExchangeEffects } from './store/exchange/exchange.effects';
 import * as fromUser from './store/user/user.reducer';
 import { TripComponent } from './components/my-trips/trip/trip.component';
-import { TripFormComponent } from './components/my-trips/trip-form/trip-form.component';
 import { ItineraryFormComponent } from './components/my-trips/trip/itinerary-form/itinerary-form.component';
-import { ItineraryItemComponent } from './components/my-trips/trip/itinerary-item/itinerary-item.component';
 
 registerLocaleData(en);
 
@@ -51,7 +49,6 @@ registerLocaleData(en);
     HomeComponent,
     TripComponent,
     ItineraryFormComponent,
-    ItineraryItemComponent,
   ],
   imports: [
     BrowserModule,

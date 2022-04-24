@@ -2,7 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ItineraryItem, Trip } from 'src/app/models/trip';
-import { addTrip, updateTrip } from 'src/app/store/trip/trip.actions';
+import {
+  addTrip,
+  setSelectedTrip,
+  updateTrip,
+} from 'src/app/store/trip/trip.actions';
 import { TripState } from 'src/app/store/trip/trip.reducer';
 import { selectSelectedTrip } from 'src/app/store/trip/trip.selectors';
 
@@ -36,12 +40,18 @@ export class TripComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  upsertItinItem(itinItem: ItineraryItem) {
+  upsertItineraryItem(itinItem: ItineraryItem) {
     if (!this.tripToEdit) return;
     if (itinItem && this.itinItemToEdit) {
+      console.log('Item Exists');
       this.tripToEdit?.itinerary.push(itinItem);
     }
+
+    this.tripToEdit?.itinerary.push(itinItem);
     this.tripStore.dispatch(updateTrip({ updatedTrip: this.tripToEdit }));
+    this.tripStore.dispatch(setSelectedTrip({ selectedTrip: this.tripToEdit }));
+
+    this.showItinItemForm = false;
   }
 
   addItinItem() {
@@ -61,8 +71,21 @@ export class TripComponent implements OnInit, OnDestroy {
 
   removeItinItem(itinItem: ItineraryItem) {
     if (!this.tripToEdit?.itinerary) return;
-    this.tripToEdit.itinerary = this.tripToEdit?.itinerary.filter(
-      (i) => i === itinItem
+    const filteredItin = this.tripToEdit?.itinerary.filter(
+      (i) =>
+        i.startEndTime.startDate !== itinItem.startEndTime.startDate &&
+        i.name !== itinItem.name
     );
+
+    this.tripToEdit.itinerary = filteredItin;
+
+    this.tripStore.dispatch(updateTrip({ updatedTrip: this.tripToEdit }));
+    this.tripStore.dispatch(setSelectedTrip({ selectedTrip: this.tripToEdit }));
+
+    this.tripToEdit.itinerary = filteredItin;
+  }
+
+  trackItineraryItem(index: number, itinerary: ItineraryItem) {
+    return itinerary.name + itinerary.startEndTime.startDate + index;
   }
 }

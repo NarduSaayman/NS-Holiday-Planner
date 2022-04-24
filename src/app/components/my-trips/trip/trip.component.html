@@ -1,33 +1,62 @@
-<div class="flex">
-  <div class="w-8/12"><app-calendar></app-calendar></div>
-  <div class="flex w-4/12 flex-col justify-center mb-auto">
-    <div class="text-center" *ngIf="(selectedTrip$ | async)?.itinerary">
+<div class="flex flex-wrap">
+  <div class="w-8/12 hidden md:inline"><app-calendar></app-calendar></div>
+  <div class="flex w-3/12 mx-auto flex-col flex-wrap justify-center mb-auto">
+    <div
+      class="text-center"
+      *ngIf="(selectedTrip$ | async)?.itinerary?.length === 0"
+    >
       <h2>
         Seems like you've got no plans for your trip to
         {{ (selectedTrip$ | async)?.name }}!
       </h2>
       <h3>Want to add an event?</h3>
     </div>
-    <button nz-button (click)="addItinItem()">Add Itinerary Event</button>
-    <div *ngFor="let item of (selectedTrip$ | async)?.itinerary">
-      <app-itinerary-item></app-itinerary-item>
-      <button (click)="editItinItem(item)">Edit</button>
-      <button (click)="removeItinItem(item)">Delete</button>
+    <button class="primary-button" (click)="addItinItem()">
+      Add Itinerary Event
+    </button>
+    <div class="flex flex-row gap-4 flex-wrap justify-center">
+      <div
+        class="w-full rounded-lg overflow-hidden"
+        *ngFor="
+          let item of (selectedTrip$ | async)?.itinerary;
+          trackBy: trackItineraryItem
+        "
+      >
+        <nz-card [nzActions]="[actionEdit, actionDelete]">
+          <nz-card-meta
+            nzTitle="{{ item.name }}"
+            nzDescription="{{ item?.description }}"
+          ></nz-card-meta>
+        </nz-card>
+        <ng-template #actionEdit>
+          <button (click)="$event.stopPropagation(); editItinItem(item)">
+            <i nz-icon nzType="edit"></i>
+          </button>
+        </ng-template>
+        <ng-template #actionDelete>
+          <button (click)="$event.stopPropagation(); removeItinItem(item)">
+            <i nz-icon nzType="delete"></i>
+          </button>
+        </ng-template>
+      </div>
     </div>
 
-    <nz-modal
-      [(nzVisible)]="showItinItemForm"
-      nzTitle="Itinerary Event"
-      (nzOnCancel)="handleCancel()"
-    >
-      <ng-container *nzModalContent>
-        <app-itinerary-form
-          *ngIf="showItinItemForm"
-          [formItinItem]="itinItemToEdit"
-          (upsertItineraryItem)="upsertItinItem($event)"
-        ></app-itinerary-form>
-      </ng-container>
-      <div *nzModalFooter></div>
-    </nz-modal>
+    <div class="rounded-2xl overflow-hidden">
+      <nz-modal [(nzVisible)]="showItinItemForm" (nzOnCancel)="handleCancel()">
+        <ng-container *nzModalContent>
+          <div class="p-5">
+            <h2 class="text-center font-bold">
+              Have anything in mind for the trip?
+            </h2>
+          </div>
+          <app-itinerary-form
+            *ngIf="showItinItemForm"
+            [formItinItem]="itinItemToEdit"
+            (upsertItineraryItem)="upsertItineraryItem($event)"
+          ></app-itinerary-form>
+        </ng-container>
+        <div *nzModalFooter></div>
+      </nz-modal>
+    </div>
   </div>
 </div>

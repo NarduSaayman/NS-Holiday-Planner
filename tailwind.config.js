@@ -1,7 +1,11 @@
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "button-primary": "#1890ff",
+      },
+    },
   },
   plugins: [],
 };

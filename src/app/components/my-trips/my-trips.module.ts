@@ -5,7 +5,7 @@ import { MyTripsRoutingModule } from './my-trips-routing.module';
 import { MyTripsComponent } from './my-trips.component';
 import { NgZorroModule } from 'src/app/shared/ng-zorro/ng-zorro.module';
 import { TripFormComponent } from './trip-form/trip-form.component';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconsProviderModule } from 'src/app/icons-provider.module';
 
 @NgModule({
